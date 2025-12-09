@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latitude and Longitude Explorer - Earth and Space Learning Activity</title>
+    <meta name="description" content="Interactive learning activity to understand and contrast latitude and longitude coordinates on Earth">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    
+    <div class="container">
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        
+        <header role="banner">
+            <h1>Latitude and Longitude Explorer</h1>
+            <p class="objective">Learning Objective: LO4.1.3 - Contrast latitude and longitude</p>
+        </header>
+
+        <main id="main-content" role="main">
+            <!-- Top Row: Controls Left, Map Right -->
+            <div class="main-content">
+                <!-- LEFT SIDE: Control Panel -->
+                <section class="control-panel" aria-label="Coordinate Controls and Information">
+                    <div class="slider-section">
+                        <div class="slider-group">
+                            <label for="latitude-slider">
+                                <strong>Latitude:</strong> 
+                                <span id="lat-value">0°</span>
+                                <span id="lat-direction">Equator</span>
+                            </label>
+                            <input type="range" id="latitude-slider" min="-90" max="90" value="0" step="0.1" 
+                                   aria-valuemin="-90" aria-valuemax="90" aria-valuenow="0" 
+                                   aria-valuetext="0 degrees, Equator"
+                                   aria-describedby="lat-help">
+                            <div class="slider-labels" id="lat-help">
+                                <span>90°S (South Pole)</span>
+                                <span>0° (Equator)</span>
+                                <span>90°N (North Pole)</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <label for="longitude-slider">
+                                <strong>Longitude:</strong> 
+                                <span id="lng-value">0°</span>
+                                <span id="lng-direction">Prime Meridian</span>
+                            </label>
+                            <input type="range" id="longitude-slider" min="-180" max="180" value="0" step="0.1"
+                                   aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0"
+                                   aria-valuetext="0 degrees, Prime Meridian"
+                                   aria-describedby="lng-help">
+                            <div class="slider-labels" id="lng-help">
+                                <span>180°W</span>
+                                <span>0° (Prime Meridian)</span>
+                                <span>180°E</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons" role="group" aria-label="Map Actions">
+                        <button id="place-dot-btn" class="primary-btn" aria-describedby="display-coords">
+                            Place Red Dot
+                        </button>
+                        <button id="clear-dots-btn" class="secondary-btn" aria-label="Clear all placed dots from map">
+                            Clear All Dots
+                        </button>
+                        <button id="compare-mode-btn" class="toggle-btn" aria-pressed="false" aria-label="Enable Compare Mode to place two dots for comparison">
+                            Enable Compare Mode
+                        </button>
+                    </div>
+                </section>
+
+                <!-- RIGHT SIDE: Map Container -->
+                <section class="map-container" aria-label="Interactive World Map">
+                    <div id="world-map" role="img" aria-label="World map showing current latitude and longitude position with crosshair and placed dots">
+                        <svg id="coordinate-grid" width="800" height="400" role="presentation" aria-hidden="true">
+                            <!-- Equator line -->
+                            <line x1="0" y1="200" x2="800" y2="200" class="equator-line" />
+                            <text x="10" y="195" class="grid-label">Equator (0° Latitude)</text>
+                            
+                            <!-- Prime Meridian line -->
+                            <line x1="400" y1="0" x2="400" y2="400" class="prime-meridian-line" />
+                            <text x="405" y="15" class="grid-label">Prime Meridian (0° Longitude)</text>
+                            
+                            <!-- Additional latitude lines -->
+                            <line x1="0" y1="111" x2="800" y2="111" class="grid-line" />
+                            <text x="10" y="106" class="minor-grid-label">45°N</text>
+                            
+                            <line x1="0" y1="289" x2="800" y2="289" class="grid-line" />
+                            <text x="10" y="284" class="minor-grid-label">45°S</text>
+                            
+                            <!-- Additional longitude lines -->
+                            <line x1="200" y1="0" x2="200" y2="400" class="grid-line" />
+                            <text x="205" y="15" class="minor-grid-label">90°W</text>
+                            
+                            <line x1="600" y1="0" x2="600" y2="400" class="grid-line" />
+                            <text x="605" y="15" class="minor-grid-label">90°E</text>
+                        </svg>
+                        
+                        <div id="crosshair" class="crosshair" role="presentation" aria-hidden="true"></div>
+                        <div id="dots-container" role="list" aria-label="Placed location markers"></div>
+                        
+                        <div class="map-labels" role="presentation" aria-hidden="true">
+                            <div class="corner-label top-left">90°N, 180°W</div>
+                            <div class="corner-label top-right">90°N, 180°E</div>
+                            <div class="corner-label bottom-left">90°S, 180°W</div>
+                            <div class="corner-label bottom-right">90°S, 180°E</div>
+                        </div>
+                    </div>
+
+                    <div class="coordinates-display">
+                        <div class="current-coords" role="status" aria-live="polite">
+                            <strong>Current Position:</strong>
+                            <span id="display-coords">0°, 0°</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- BELOW BOTH: Supporting Information -->
+            <section class="info-section-below" aria-label="Latitude and Longitude Reference">
+                <h3>Quick Reference</h3>
+                <div class="reference-grid">
+                    <div class="lat-info">
+                        <strong>Latitude (Horizontal Lines)</strong>
+                        <p>Measures North ↔ South position</p>
+                        <p>Range: -90° to +90°</p>
+                        <p>0° = Equator</p>
+                    </div>
+                    <div class="lng-info">
+                        <strong>Longitude (Vertical Lines)</strong>
+                        <p>Measures East ↔ West position</p>
+                        <p>Range: -180° to +180°</p>
+                        <p>0° = Prime Meridian</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="feedback-section">
+                <h4>Location Feedback</h4>
+                <div id="location-feedback" class="feedback-text" role="status" aria-live="polite">
+                    Move the sliders to explore different coordinates on Earth!
+                </div>
+            </div>
+
+            <nav class="challenge-section" aria-label="Learning Challenges">
+                <h4>Show Me:</h4>
+                <div id="challenge-list">
+                    <button class="challenge-btn" data-lat="0" data-lng="0" aria-label="Challenge: Find the Equator and Prime Meridian intersection at 0 degrees latitude, 0 degrees longitude">Equator & Prime Meridian intersection</button>
+                    <button class="challenge-btn" data-lat="90" data-lng="0" aria-label="Challenge: Locate the North Pole at 90 degrees North latitude, 0 degrees longitude">Locate the North Pole</button>
+                    <button class="challenge-btn" data-lat="-90" data-lng="0" aria-label="Challenge: Find the South Pole at 90 degrees South latitude, 0 degrees longitude">South Pole</button>
+                    <button class="challenge-btn" data-lat="23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Cancer at 23.5 degrees North latitude, 0 degrees longitude">Tropic of Cancer</button>
+                    <button class="challenge-btn" data-lat="40.7" data-lng="-74" aria-label="Challenge: Find New York City at 40.7 degrees North latitude, 74 degrees West longitude">New York City</button>
+                    <button class="challenge-btn" data-lat="51.5" data-lng="0" aria-label="Challenge: Find London on Prime Meridian at 51.5 degrees North latitude, 0 degrees longitude">London (on Prime Meridian)</button>
+                </div>
+            </nav>
+        </main>
+
+        <aside class="comparison-panel" id="comparison-panel" aria-label="Location Comparison Panel" aria-hidden="true">
+            <h3>Compare Two Locations</h3>
+            <div class="comparison-grid">
+                <div class="location-compare" id="location-1">
+                    <h4>Location 1</h4>
+                    <p class="coords">Not set</p>
+                    <p class="description">-</p>
+                </div>
+                <div class="location-compare" id="location-2">
+                    <h4>Location 2</h4>
+                    <p class="coords">Not set</p>
+                    <p class="description">-</p>
+                </div>
+            </div>
+            <div class="comparison-analysis" id="comparison-analysis" role="status" aria-live="polite">
+                Select two locations to see the comparison!
+            </div>
+        </aside>
+
+        <footer role="contentinfo">
+            <section class="learning-summary" aria-label="Key Learning Points Summary">
+                <h3>Key Learning Points:</h3>
+                <ul>
+                    <li><strong>Latitude</strong> runs horizontally (east-west lines) but measures north-south position</li>
+                    <li><strong>Longitude</strong> runs vertically (north-south lines) but measures east-west position</li>
+                    <li>The <strong>Equator</strong> (0° latitude) divides Earth into Northern and Southern hemispheres</li>
+                    <li>The <strong>Prime Meridian</strong> (0° longitude) divides Earth into Eastern and Western hemispheres</li>
+                    <li>Coordinates are always written as <strong>(Latitude, Longitude)</strong></li>
+                </ul>
+            </section>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
