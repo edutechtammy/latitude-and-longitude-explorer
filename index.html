@@ -21,6 +21,28 @@
 
         <main id="main-content" role="main">
             <!-- Top Row: Controls Left, Map Right -->
+
+            <!-- BELOW BOTH: Supporting Information -->
+            <section class="info-section-below" aria-label="Latitude and Longitude Reference">
+                <h3>Quick Reference</h3>
+                <div class="reference-grid">
+                    <div class="lat-info">
+                        <strong>Latitude (Horizontal Lines)</strong>
+                        <p>Measures North ↔ South position</p>
+                        <p>Range: -90° to +90°</p>
+                        <p>0° = Equator</p>
+                    </div>
+                    <div class="lng-info">
+                        <strong>Longitude (Vertical Lines)</strong>
+                        <p>Measures East ↔ West position</p>
+                        <p>Range: -180° to +180°</p>
+                        <p>0° = Prime Meridian</p>
+                    </div>
+                </div>
+            </section>
+
+
+
             <div class="main-content">
                 <!-- LEFT SIDE: Control Panel -->
                 <section class="control-panel" aria-label="Coordinate Controls and Information">
@@ -62,7 +84,7 @@
 
                     <div class="action-buttons" role="group" aria-label="Map Actions">
                         <button id="place-dot-btn" class="primary-btn" aria-describedby="display-coords">
-                            Place Red Dot
+                            Place a Dot
                         </button>
                         <button id="clear-dots-btn" class="secondary-btn" aria-label="Clear all placed dots from map">
                             Clear All Dots
@@ -120,24 +142,25 @@
                 </section>
             </div>
 
-            <!-- BELOW BOTH: Supporting Information -->
-            <section class="info-section-below" aria-label="Latitude and Longitude Reference">
-                <h3>Quick Reference</h3>
-                <div class="reference-grid">
-                    <div class="lat-info">
-                        <strong>Latitude (Horizontal Lines)</strong>
-                        <p>Measures North ↔ South position</p>
-                        <p>Range: -90° to +90°</p>
-                        <p>0° = Equator</p>
-                    </div>
-                    <div class="lng-info">
-                        <strong>Longitude (Vertical Lines)</strong>
-                        <p>Measures East ↔ West position</p>
-                        <p>Range: -180° to +180°</p>
-                        <p>0° = Prime Meridian</p>
-                    </div>
+            <aside class="comparison-panel" id="comparison-panel" aria-label="Location Comparison Panel" aria-hidden="true">
+            <h3>Compare Two Locations</h3>
+            <div class="comparison-grid">
+                <div class="location-compare" id="location-1">
+                    <h4>Location 1</h4>
+                    <p class="coords">Not set</p>
+                    <p class="description">-</p>
                 </div>
-            </section>
+                <div class="location-compare" id="location-2">
+                    <h4>Location 2</h4>
+                    <p class="coords">Not set</p>
+                    <p class="description">-</p>
+                </div>
+            </div>
+            <div class="comparison-analysis" id="comparison-analysis" role="status" aria-live="polite">
+                Select two locations to see the comparison!
+            </div>
+        </aside>
+
 
             <div class="feedback-section">
                 <h4>Location Feedback</h4>
@@ -159,25 +182,7 @@
             </nav>
         </main>
 
-        <aside class="comparison-panel" id="comparison-panel" aria-label="Location Comparison Panel" aria-hidden="true">
-            <h3>Compare Two Locations</h3>
-            <div class="comparison-grid">
-                <div class="location-compare" id="location-1">
-                    <h4>Location 1</h4>
-                    <p class="coords">Not set</p>
-                    <p class="description">-</p>
-                </div>
-                <div class="location-compare" id="location-2">
-                    <h4>Location 2</h4>
-                    <p class="coords">Not set</p>
-                    <p class="description">-</p>
-                </div>
-            </div>
-            <div class="comparison-analysis" id="comparison-analysis" role="status" aria-live="polite">
-                Select two locations to see the comparison!
-            </div>
-        </aside>
-
+        
         <footer role="contentinfo">
             <section class="learning-summary" aria-label="Key Learning Points Summary">
                 <h3>Key Learning Points:</h3>
