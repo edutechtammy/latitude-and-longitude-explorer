@@ -1,3 +1,13 @@
+/* Texas State Technical College Brand Colors */
+:root {
+    --tstc-texas-blue: #1d2757;
+    --tstc-texas-blue-light: #2a3a7a;
+    --tstc-texas-blue-dark: #141f42;
+    --tstc-lone-star-red: #d13138;
+    --tstc-lone-star-red-light: #e14850;
+    --tstc-lone-star-red-dark: #b02229;
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -40,7 +50,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #1d2757 0%, #2a3a7a 100%);
     min-height: 100vh;
 }
 
@@ -60,7 +70,7 @@ header {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1d2757 0%, #2a3a7a 100%);
     color: white;
     border-radius: 8px;
 }
@@ -146,14 +156,14 @@ header h1 {
 
 #lat-value,
 #lng-value {
-    color: #6c63ff;
+    color: #1d2757;
     font-weight: bold;
     font-size: 1.2em;
 }
 
 #lat-direction,
 #lng-direction {
-    color: #28a745;
+    color: #1d2757;
     font-style: italic;
     margin-left: 10px;
 }
@@ -175,7 +185,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #6c63ff;
+    background: #1d2757;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
@@ -184,7 +194,7 @@ input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #6c63ff;
+    background: #1d2757;
     cursor: pointer;
     border: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -229,44 +239,44 @@ input[type="range"]:focus {
 }
 
 .primary-btn {
-    background: #dc3545;
+    background: #d13138;
     color: white;
 }
 
 .primary-btn:hover,
 .primary-btn:focus-visible {
-    background: #c82333;
+    background: #b02229;
     transform: translateY(-2px);
 }
 
 .secondary-btn {
-    background: #6c757d;
+    background: #1d2757;
     color: white;
 }
 
 .secondary-btn:hover,
 .secondary-btn:focus-visible {
-    background: #5a6268;
+    background: #141f42;
 }
 
 .toggle-btn {
-    background: #28a745;
+    background: #1d2757;
     color: white;
 }
 
 .toggle-btn:hover,
 .toggle-btn:focus-visible {
-    background: #218838;
+    background: #141f42;
 }
 
 .toggle-btn.active {
-    background: #ffc107;
-    color: #212529;
+    background: #d13138;
+    color: white;
 }
 
 .toggle-btn.active:hover,
 .toggle-btn.active:focus-visible {
-    background: #e0a800;
+    background: #b02229;
 }
 
 /* Feedback Section */
@@ -283,7 +293,7 @@ input[type="range"]:focus {
     background: white;
     padding: 15px;
     border-radius: 6px;
-    border-left: 4px solid #17a2b8;
+    border-left: 4px solid #1d2757;
     min-height: 60px;
     line-height: 1.5;
 }
@@ -300,9 +310,9 @@ input[type="range"]:focus {
     margin-bottom: 8px;
     padding: 10px 15px;
     background: white;
-    border: 2px solid #6c63ff;
+    border: 2px solid #1d2757;
     border-radius: 6px;
-    color: #6c63ff;
+    color: #1d2757;
     text-align: left;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -311,16 +321,16 @@ input[type="range"]:focus {
 
 .challenge-btn:hover,
 .challenge-btn:focus-visible {
-    background: #6c63ff;
+    background: #1d2757;
     color: white;
 }
 
 /* Map Container - Now on the right */
 .map-container {
-    background: #e3f2fd;
+    background: #f8f9fa;
     border-radius: 8px;
     padding: 20px;
-    border: 2px solid #bbdefb;
+    border: 2px solid #1d2757;
 }
 
 #world-map {
@@ -344,13 +354,13 @@ input[type="range"]:focus {
 }
 
 .equator-line {
-    stroke: #ff4444;
+    stroke: #d13138;
     stroke-width: 3;
     stroke-dasharray: 10, 5;
 }
 
 .prime-meridian-line {
-    stroke: #4444ff;
+    stroke: #1d2757;
     stroke-width: 3;
     stroke-dasharray: 10, 5;
 }
@@ -378,7 +388,7 @@ input[type="range"]:focus {
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 2px solid #ff0000;
+    border: 2px solid #d13138;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
@@ -389,7 +399,7 @@ input[type="range"]:focus {
 .crosshair::after {
     content: '';
     position: absolute;
-    background: #ff0000;
+    background: #d13138;
 }
 
 .crosshair::before {
@@ -413,7 +423,7 @@ input[type="range"]:focus {
     position: absolute;
     width: 12px;
     height: 12px;
-    background: #dc3545;
+    background: #d13138;
     border: 2px solid white;
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -435,13 +445,13 @@ input[type="range"]:focus {
 }
 
 .dot.compare-1 {
-    background: #28a745;
-    border-color: #155724;
+    background: #1d2757;
+    border-color: #141f42;
 }
 
 .dot.compare-2 {
-    background: #ffc107;
-    border-color: #856404;
+    background: #e14850;
+    border-color: #b02229;
 }
 
 /* Map Labels */
@@ -494,20 +504,20 @@ input[type="range"]:focus {
     background: white;
     padding: 10px 20px;
     border-radius: 6px;
-    border: 2px solid #6c63ff;
+    border: 2px solid #1d2757;
     display: inline-block;
 }
 
 #display-coords {
-    color: #6c63ff;
+    color: #1d2757;
     font-weight: bold;
     font-size: 1.1em;
 }
 
 /* Comparison Panel */
 .comparison-panel {
-    background: #fff3cd;
-    border: 2px solid #ffeaa7;
+    background: #f8f9fa;
+    border: 2px solid #1d2757;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
@@ -519,7 +529,7 @@ input[type="range"]:focus {
 }
 
 .comparison-panel h3 {
-    color: #856404;
+    color: #1d2757;
     margin-bottom: 15px;
 }
 
@@ -534,11 +544,11 @@ input[type="range"]:focus {
     background: white;
     padding: 15px;
     border-radius: 6px;
-    border-left: 4px solid #28a745;
+    border-left: 4px solid #1d2757;
 }
 
 .location-compare:last-child {
-    border-left-color: #ffc107;
+    border-left-color: #d13138;
 }
 
 .location-compare h4 {
@@ -548,7 +558,7 @@ input[type="range"]:focus {
 
 .location-compare .coords {
     font-weight: bold;
-    color: #6c63ff;
+    color: #1d2757;
     margin-bottom: 5px;
 }
 
@@ -556,7 +566,7 @@ input[type="range"]:focus {
     background: white;
     padding: 15px;
     border-radius: 6px;
-    border-left: 4px solid #17a2b8;
+    border-left: 4px solid #d13138;
     font-style: italic;
 }
 
@@ -585,13 +595,13 @@ footer {
     margin-bottom: 10px;
     padding: 12px 15px;
     border-radius: 6px;
-    border-left: 4px solid #6c63ff;
+    border-left: 4px solid #1d2757;
     position: relative;
 }
 
 .learning-summary li::before {
     content: '✓';
-    color: #28a745;
+    color: #d13138;
     font-weight: bold;
     margin-right: 10px;
 }
@@ -608,7 +618,7 @@ footer {
 .info-section-below h3 {
     color: #495057;
     margin-bottom: 15px;
-    border-bottom: 2px solid #6c63ff;
+    border-bottom: 2px solid #1d2757;
     padding-bottom: 5px;
     text-align: center;
 }
@@ -624,11 +634,11 @@ footer {
     background: white;
     padding: 15px;
     border-radius: 6px;
-    border-left: 4px solid #28a745;
+    border-left: 4px solid #1d2757;
 }
 
 .lng-info {
-    border-left-color: #007bff;
+    border-left-color: #d13138;
 }
 
 .lat-info strong,
@@ -659,7 +669,7 @@ footer {
 .challenge-section h4 {
     color: #495057;
     margin-bottom: 15px;
-    border-bottom: 2px solid #6c63ff;
+    border-bottom: 2px solid #1d2757;
     padding-bottom: 5px;
 }
 
