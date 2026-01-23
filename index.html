@@ -20,32 +20,16 @@
         </header>
 
         <main id="main-content" role="main">
-            <!-- Top Row: Controls Left, Map Right -->
-
-            <!-- BELOW BOTH: Supporting Information -->
-            <section class="info-section-below" aria-label="Latitude and Longitude Reference">
-                <h3>Quick Reference</h3>
-                <div class="reference-grid">
-                    <div class="lat-info">
-                        <strong>Latitude (Horizontal Lines)</strong>
-                        <p>Measures North ↔ South position</p>
-                        <p>Range: -90° to +90°</p>
-                        <p>0° = Equator</p>
-                    </div>
-                    <div class="lng-info">
-                        <strong>Longitude (Vertical Lines)</strong>
-                        <p>Measures East ↔ West position</p>
-                        <p>Range: -180° to +180°</p>
-                        <p>0° = Prime Meridian</p>
-                    </div>
-                </div>
-            </section>
-
-
-
+            <!-- BELOW SLIDERS AND MAP: Coordinate Display and Tab Interface -->
+            
             <div class="main-content">
                 <!-- LEFT SIDE: Control Panel -->
                 <section class="control-panel" aria-label="Coordinate Controls and Information">
+                    <div class="slider-instructions">
+                        <h3>Interactive Controls</h3>
+                        <p>Use the sliders below to move the crosshair on the map and explore different locations around the world. Watch how the coordinates change as you explore!</p>
+                    </div>
+                    
                     <div class="slider-section">
                         <div class="slider-group">
                             <label for="latitude-slider">
@@ -80,18 +64,6 @@
                                 <span>180°E</span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="action-buttons" role="group" aria-label="Map Actions">
-                        <button id="place-dot-btn" class="primary-btn" aria-describedby="display-coords">
-                            Place a Dot
-                        </button>
-                        <button id="clear-dots-btn" class="secondary-btn" aria-label="Clear all placed dots from map">
-                            Clear All Dots
-                        </button>
-                        <button id="compare-mode-btn" class="toggle-btn" aria-pressed="false" aria-label="Enable Compare Mode to place two dots for comparison">
-                            Enable Compare Mode
-                        </button>
                     </div>
                 </section>
 
@@ -142,60 +114,116 @@
                 </section>
             </div>
 
-            <aside class="comparison-panel" id="comparison-panel" aria-label="Location Comparison Panel" aria-hidden="true">
-            <h3>Compare Two Locations</h3>
-            <div class="comparison-grid">
-                <div class="location-compare" id="location-1">
-                    <h4>Location 1</h4>
-                    <p class="coords">Not set</p>
-                    <p class="description">-</p>
+            <!-- Tab Interface -->
+            <section class="tab-interface" aria-label="Learning Activities">
+                <div class="tab-instructions">
+                    <h3>Learning Activities</h3>
+                    <p>Select the tabs below to explore different ways to learn about latitude and longitude coordinates.</p>
                 </div>
-                <div class="location-compare" id="location-2">
-                    <h4>Location 2</h4>
-                    <p class="coords">Not set</p>
-                    <p class="description">-</p>
+                
+                <nav class="tab-navigation" role="tablist" aria-label="Activity Tabs">
+                    <button class="tab-button active" role="tab" aria-controls="explore-tab" aria-selected="true" id="explore-tab-button">Explore</button>
+                    <button class="tab-button" role="tab" aria-controls="challenges-tab" aria-selected="false" id="challenges-tab-button">Challenges</button>
+                    <button class="tab-button" role="tab" aria-controls="compare-tab" aria-selected="false" id="compare-tab-button">Compare</button>
+                    <button class="tab-button" role="tab" aria-controls="reference-tab" aria-selected="false" id="reference-tab-button">Reference</button>
+                </nav>
+
+                <div class="tab-content">
+                    <!-- Explore Tab -->
+                    <div class="tab-panel active" role="tabpanel" id="explore-tab" aria-labelledby="explore-tab-button">
+                        <div class="feedback-section">
+                            <h4>Location Feedback</h4>
+                            <div id="location-feedback" class="feedback-text" role="status" aria-live="polite">
+                                Move the sliders to explore different coordinates on Earth!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Challenges Tab -->
+                    <div class="tab-panel" role="tabpanel" id="challenges-tab" aria-labelledby="challenges-tab-button">
+                        <nav class="challenge-section" aria-label="Learning Challenges">
+                            <h4>Show Me:</h4>
+                            <div id="challenge-list">
+                                <button class="challenge-btn" data-lat="0" data-lng="0" aria-label="Challenge: Find the Equator and Prime Meridian intersection at 0 degrees latitude, 0 degrees longitude">Equator & Prime Meridian intersection</button>
+                                <button class="challenge-btn" data-lat="90" data-lng="0" aria-label="Challenge: Locate the North Pole at 90 degrees North latitude, 0 degrees longitude">Locate the North Pole</button>
+                                <button class="challenge-btn" data-lat="-90" data-lng="0" aria-label="Challenge: Find the South Pole at 90 degrees South latitude, 0 degrees longitude">South Pole</button>
+                                <button class="challenge-btn" data-lat="23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Cancer at 23.5 degrees North latitude, 0 degrees longitude">Tropic of Cancer</button>
+                                <button class="challenge-btn" data-lat="-23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Capricorn at 23.5 degrees South latitude, 0 degrees longitude">Tropic of Capricorn</button>
+                                <button class="challenge-btn" data-lat="40.7" data-lng="-74" aria-label="Challenge: Find New York City at 40.7 degrees North latitude, 74 degrees West longitude">New York City</button>
+                                <button class="challenge-btn" data-lat="51.5" data-lng="0" aria-label="Challenge: Find London on Prime Meridian at 51.5 degrees North latitude, 0 degrees longitude">London (on Prime Meridian)</button>
+                            </div>
+                        </nav>
+                    </div>
+
+                    <!-- Compare Tab -->
+                    <div class="tab-panel" role="tabpanel" id="compare-tab" aria-labelledby="compare-tab-button">
+                        <div class="compare-instructions">
+                            <p>Use the sliders to position the crosshair, then click "Place Comparison Dot" to set two locations for comparison.</p>
+                        </div>
+                        
+                        <div class="action-buttons" role="group" aria-label="Compare Actions">
+                            <button id="place-compare-dot-btn" class="primary-btn" aria-describedby="display-coords">
+                                Place Comparison Dot
+                            </button>
+                            <button id="clear-compare-dots-btn" class="secondary-btn" aria-label="Clear comparison dots from map">
+                                Clear Comparison Dots
+                            </button>
+                        </div>
+                        
+                        <aside class="comparison-panel" id="comparison-panel" aria-label="Location Comparison Panel" aria-hidden="true">
+                            <h3>Compare Two Locations</h3>
+                            <div class="comparison-grid">
+                                <div class="location-compare" id="location-1">
+                                    <h4>Location 1</h4>
+                                    <p class="coords">Not set</p>
+                                    <p class="description">-</p>
+                                </div>
+                                <div class="location-compare" id="location-2">
+                                    <h4>Location 2</h4>
+                                    <p class="coords">Not set</p>
+                                    <p class="description">-</p>
+                                </div>
+                            </div>
+                            <div class="comparison-analysis" id="comparison-analysis" role="status" aria-live="polite">
+                                Select two locations to see the comparison!
+                            </div>
+                        </aside>
+                    </div>
+
+                    <!-- Reference Tab -->
+                    <div class="tab-panel" role="tabpanel" id="reference-tab" aria-labelledby="reference-tab-button">
+                        <section class="info-section" aria-label="Latitude and Longitude Reference">
+                            <h3 class="centered-title">Quick Reference</h3>
+                            <div class="reference-grid">
+                                <div class="lat-info">
+                                    <strong>Latitude (Horizontal Lines)</strong>
+                                    <p>Measures North ↔ South position</p>
+                                    <p>Range: -90° to +90°</p>
+                                    <p>0° = Equator</p>
+                                </div>
+                                <div class="lng-info">
+                                    <strong>Longitude (Vertical Lines)</strong>
+                                    <p>Measures East ↔ West position</p>
+                                    <p>Range: -180° to +180°</p>
+                                    <p>0° = Prime Meridian</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="learning-summary" aria-label="Key Learning Points Summary">
+                            <h3>Key Learning Points:</h3>
+                            <ul>
+                                <li><strong>Latitude</strong> runs horizontally (east-west lines) but measures north-south position</li>
+                                <li><strong>Longitude</strong> runs vertically (north-south lines) but measures east-west position</li>
+                                <li>The <strong>Equator</strong> (0° latitude) divides Earth into Northern and Southern hemispheres</li>
+                                <li>The <strong>Prime Meridian</strong> (0° longitude) divides Earth into Eastern and Western hemispheres</li>
+                                <li>Coordinates are always written as <strong>(Latitude, Longitude)</strong></li>
+                            </ul>
+                        </section>
+                    </div>
                 </div>
-            </div>
-            <div class="comparison-analysis" id="comparison-analysis" role="status" aria-live="polite">
-                Select two locations to see the comparison!
-            </div>
-        </aside>
-
-
-            <div class="feedback-section">
-                <h4>Location Feedback</h4>
-                <div id="location-feedback" class="feedback-text" role="status" aria-live="polite">
-                    Move the sliders to explore different coordinates on Earth!
-                </div>
-            </div>
-
-            <nav class="challenge-section" aria-label="Learning Challenges">
-                <h4>Show Me:</h4>
-                <div id="challenge-list">
-                    <button class="challenge-btn" data-lat="0" data-lng="0" aria-label="Challenge: Find the Equator and Prime Meridian intersection at 0 degrees latitude, 0 degrees longitude">Equator & Prime Meridian intersection</button>
-                    <button class="challenge-btn" data-lat="90" data-lng="0" aria-label="Challenge: Locate the North Pole at 90 degrees North latitude, 0 degrees longitude">Locate the North Pole</button>
-                    <button class="challenge-btn" data-lat="-90" data-lng="0" aria-label="Challenge: Find the South Pole at 90 degrees South latitude, 0 degrees longitude">South Pole</button>
-                    <button class="challenge-btn" data-lat="23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Cancer at 23.5 degrees North latitude, 0 degrees longitude">Tropic of Cancer</button>
-                    <button class="challenge-btn" data-lat="-23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Capricorn at 23.5 degrees South latitude, 0 degrees longitude">Tropic of Capricorn</button>
-                    <button class="challenge-btn" data-lat="40.7" data-lng="-74" aria-label="Challenge: Find New York City at 40.7 degrees North latitude, 74 degrees West longitude">New York City</button>
-                    <button class="challenge-btn" data-lat="51.5" data-lng="0" aria-label="Challenge: Find London on Prime Meridian at 51.5 degrees North latitude, 0 degrees longitude">London (on Prime Meridian)</button>
-                </div>
-            </nav>
-        </main>
-
-        
-        <footer role="contentinfo">
-            <section class="learning-summary" aria-label="Key Learning Points Summary">
-                <h3>Key Learning Points:</h3>
-                <ul>
-                    <li><strong>Latitude</strong> runs horizontally (east-west lines) but measures north-south position</li>
-                    <li><strong>Longitude</strong> runs vertically (north-south lines) but measures east-west position</li>
-                    <li>The <strong>Equator</strong> (0° latitude) divides Earth into Northern and Southern hemispheres</li>
-                    <li>The <strong>Prime Meridian</strong> (0° longitude) divides Earth into Eastern and Western hemispheres</li>
-                    <li>Coordinates are always written as <strong>(Latitude, Longitude)</strong></li>
-                </ul>
             </section>
-        </footer>
+        </main>
     </div>
 
     <script src="script.js"></script>

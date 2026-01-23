@@ -4,6 +4,7 @@ let currentLongitude = 0;
 let compareMode = false;
 let comparisonDots = [];
 let dotCounter = 0;
+let activeTab = 'explore-tab';
 
 // DOM elements
 const latitudeSlider = document.getElementById('latitude-slider');
@@ -13,15 +14,16 @@ const lngValue = document.getElementById('lng-value');
 const latDirection = document.getElementById('lat-direction');
 const lngDirection = document.getElementById('lng-direction');
 const crosshair = document.getElementById('crosshair');
-const placeDotBtn = document.getElementById('place-dot-btn');
-const clearDotsBtn = document.getElementById('clear-dots-btn');
-const compareModeBtn = document.getElementById('compare-mode-btn');
+const placeCompareDotBtn = document.getElementById('place-compare-dot-btn');
+const clearCompareDotsBtn = document.getElementById('clear-compare-dots-btn');
 const feedbackDiv = document.getElementById('location-feedback');
 const displayCoords = document.getElementById('display-coords');
 const dotsContainer = document.getElementById('dots-container');
 const comparisonPanel = document.getElementById('comparison-panel');
 const challengeButtons = document.querySelectorAll('.challenge-btn');
 const srAnnouncements = document.getElementById('sr-announcements');
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabPanels = document.querySelectorAll('.tab-panel');
 
 // Screen reader announcement helper
 function announceToScreenReader(message, priority = 'polite') {
@@ -36,6 +38,7 @@ function announceToScreenReader(message, priority = 'polite') {
 // Initialize the application
 function init() {
     setupEventListeners();
+    setupTabNavigation();
     updatePosition();
     updateFeedback();
 }
@@ -44,13 +47,33 @@ function init() {
 function setupEventListeners() {
     latitudeSlider.addEventListener('input', handleLatitudeChange);
     longitudeSlider.addEventListener('input', handleLongitudeChange);
-    placeDotBtn.addEventListener('click', placeDot);
-    clearDotsBtn.addEventListener('click', clearAllDots);
-    compareModeBtn.addEventListener('click', toggleCompareMode);
 
-    // Keyboard support for sliders
+    // Compare tab button listeners
+    if (placeCompareDotBtn) {
+        placeCompareDotBtn.addEventListener('click', placeDot);
+    }
+    if (clearCompareDotsBtn) {
+        clearCompareDotsBtn.addEventListener('click', clearComparisonDots);
+    }    // Keyboard support for sliders
     latitudeSlider.addEventListener('keydown', handleSliderKeydown);
     longitudeSlider.addEventListener('keydown', handleSliderKeydown);
+
+    // Window resize listener for responsive coordinate calculations
+    window.addEventListener('resize', () => {
+        updatePosition();
+        // Update all existing dots
+        comparisonDots.forEach(dotData => {
+            const worldMap = document.getElementById('world-map');
+            const mapWidth = worldMap.offsetWidth;
+            const mapHeight = worldMap.offsetHeight;
+
+            const x = ((dotData.lng + 180) / 360) * (mapWidth - 20) + 10;
+            const y = ((90 - dotData.lat) / 180) * (mapHeight - 20) + 10;
+
+            dotData.element.style.left = x + 'px';
+            dotData.element.style.top = y + 'px';
+        });
+    });
 
     // Challenge button listeners
     challengeButtons.forEach(btn => {
@@ -60,6 +83,102 @@ function setupEventListeners() {
             animateToCoordinates(lat, lng);
         });
     });
+}
+
+// Tab Navigation Setup
+function setupTabNavigation() {
+    tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const targetTab = e.target.getAttribute('aria-controls');
+            switchTab(targetTab);
+        });
+
+        // Keyboard navigation for tabs
+        button.addEventListener('keydown', (e) => {
+            const currentIndex = Array.from(tabButtons).indexOf(e.target);
+            let nextIndex;
+
+            switch (e.key) {
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextIndex = (currentIndex + 1) % tabButtons.length;
+                    tabButtons[nextIndex].focus();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    nextIndex = currentIndex === 0 ? tabButtons.length - 1 : currentIndex - 1;
+                    tabButtons[nextIndex].focus();
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    e.target.click();
+                    break;
+            }
+        });
+    });
+}
+
+// Switch between tabs
+function switchTab(targetTabId) {
+    // Update active tab tracking
+    activeTab = targetTabId;
+
+    // Update button states
+    tabButtons.forEach(button => {
+        const isActive = button.getAttribute('aria-controls') === targetTabId;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-selected', isActive.toString());
+    });
+
+    // Update panel visibility
+    tabPanels.forEach(panel => {
+        const isActive = panel.id === targetTabId;
+        panel.classList.toggle('active', isActive);
+        panel.setAttribute('aria-hidden', (!isActive).toString());
+    });
+
+    // Announce tab change to screen readers
+    const activeButton = document.querySelector(`[aria-controls="${targetTabId}"]`);
+    announceToScreenReader(`Switched to ${activeButton.textContent} tab`);
+
+    // Handle tab-specific functionality
+    handleTabSwitch(targetTabId);
+}
+
+// Handle tab-specific behavior
+function handleTabSwitch(tabId) {
+    switch (tabId) {
+        case 'compare-tab':
+            // Auto-enable compare mode when entering Compare tab
+            enableCompareMode();
+            break;
+        case 'explore-tab':
+        case 'challenges-tab':
+        case 'reference-tab':
+            // Auto-disable compare mode when leaving Compare tab
+            if (compareMode) {
+                disableCompareMode();
+            }
+            break;
+    }
+
+    // Handle other tab-specific functionality
+    if (tabId === 'challenges-tab') {
+        // Focus on first challenge button for better UX
+        setTimeout(() => {
+            const firstChallenge = document.querySelector('.challenge-btn');
+            if (firstChallenge) firstChallenge.focus();
+        }, 100);
+    }
+}
+
+// Update comparison panel visibility based on compare mode
+function updateComparisonPanelVisibility() {
+    if (activeTab === 'compare-tab') {
+        comparisonPanel.style.display = compareMode ? 'block' : 'none';
+        comparisonPanel.setAttribute('aria-hidden', (!compareMode).toString());
+    }
 }
 
 // Enhanced keyboard navigation for sliders
@@ -161,13 +280,17 @@ function updateLongitudeDisplay() {
 
 // Update crosshair position on map
 function updatePosition() {
-    // Convert lat/lng to pixel coordinates
-    // Map dimensions: 800x400 pixels
-    // Latitude: -90 to 90 maps to 400 to 0 pixels (inverted)
-    // Longitude: -180 to 180 maps to 0 to 800 pixels
+    // Get actual map dimensions for responsive calculation
+    const worldMap = document.getElementById('world-map');
+    const mapWidth = worldMap.offsetWidth;
+    const mapHeight = worldMap.offsetHeight;
 
-    const x = ((currentLongitude + 180) / 360) * 800;
-    const y = ((90 - currentLatitude) / 180) * 400;
+    // Convert lat/lng to pixel coordinates with 10px margin for crosshair centering
+    // Latitude: -90 to 90 maps to (mapHeight-10) to 10 pixels (inverted)
+    // Longitude: -180 to 180 maps to 10 to (mapWidth-10) pixels
+
+    const x = ((currentLongitude + 180) / 360) * (mapWidth - 20) + 10;
+    const y = ((90 - currentLatitude) / 180) * (mapHeight - 20) + 10;
 
     crosshair.style.left = x + 'px';
     crosshair.style.top = y + 'px';
@@ -269,9 +392,13 @@ function placeDot() {
         updateComparisonPanel();
     }
 
-    // Position the dot
-    const x = ((currentLongitude + 180) / 360) * 800;
-    const y = ((90 - currentLatitude) / 180) * 400;
+    // Position the dot using actual map dimensions
+    const worldMap = document.getElementById('world-map');
+    const mapWidth = worldMap.offsetWidth;
+    const mapHeight = worldMap.offsetHeight;
+
+    const x = ((currentLongitude + 180) / 360) * (mapWidth - 20) + 10;
+    const y = ((90 - currentLatitude) / 180) * (mapHeight - 20) + 10;
 
     dot.style.left = x + 'px';
     dot.style.top = y + 'px';
@@ -313,29 +440,55 @@ function clearAllDots() {
     }
 }
 
-// Toggle compare mode
-function toggleCompareMode() {
-    compareMode = !compareMode;
-    compareModeBtn.textContent = compareMode ? 'Disable Compare Mode' : 'Enable Compare Mode';
-    compareModeBtn.classList.toggle('active', compareMode);
-    compareModeBtn.setAttribute('aria-pressed', compareMode ? 'true' : 'false');
-    comparisonPanel.classList.toggle('active', compareMode);
-    comparisonPanel.setAttribute('aria-hidden', compareMode ? 'false' : 'true');
+// Clear only comparison dots
+function clearComparisonDots() {
+    const compareDotsCount = comparisonDots.length;
 
-    // Announce mode change
-    announceToScreenReader(compareMode ? 'Compare mode enabled' : 'Compare mode disabled');
+    // Remove comparison dots from the DOM
+    comparisonDots.forEach(dotData => {
+        if (dotData.element && dotData.element.parentNode) {
+            dotData.element.remove();
+        }
+    });
 
-    if (!compareMode) {
-        // Remove compare-specific dots
-        document.querySelectorAll('.dot.compare-1, .dot.compare-2').forEach(dot => {
-            dot.className = 'dot';
-        });
-        comparisonDots = [];
-        updateComparisonPanel();
+    // Clear the comparison dots array
+    comparisonDots = [];
+    updateComparisonPanel();
+
+    if (compareDotsCount > 0) {
+        announceToScreenReader(`Cleared ${compareDotsCount} comparison dot${compareDotsCount !== 1 ? 's' : ''} from map`);
     }
 }
 
-// Update comparison panel
+// Enable compare mode
+function enableCompareMode() {
+    compareMode = true;
+    updateComparisonPanelVisibility();
+    announceToScreenReader('Compare mode enabled automatically');
+}
+
+// Disable compare mode
+function disableCompareMode() {
+    compareMode = false;
+    updateComparisonPanelVisibility();
+    announceToScreenReader('Compare mode disabled');
+
+    // Remove compare-specific dots
+    document.querySelectorAll('.dot.compare-1, .dot.compare-2').forEach(dot => {
+        dot.className = 'dot';
+    });
+    comparisonDots = [];
+    updateComparisonPanel();
+}
+
+// Toggle compare mode (legacy function - now simplified)
+function toggleCompareMode() {
+    if (compareMode) {
+        disableCompareMode();
+    } else {
+        enableCompareMode();
+    }
+}// Update comparison panel
 function updateComparisonPanel() {
     const location1 = document.getElementById('location-1');
     const location2 = document.getElementById('location-2');

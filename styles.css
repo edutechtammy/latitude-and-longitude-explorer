@@ -103,10 +103,35 @@ header h1 {
     border: 2px solid #e9ecef;
 }
 
+.slider-instructions {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border-left: 4px solid #d13138;
+}
+
+.slider-instructions h3 {
+    color: #1d2757;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.slider-instructions p {
+    color: #495057;
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
 .reference-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .lat-info,
@@ -657,25 +682,192 @@ footer {
     color: #6c757d;
 }
 
-/* Below sections styling */
-.feedback-section,
-.challenge-section {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 8px;
-    border: 2px solid #e9ecef;
-    margin-bottom: 30px;
+/* Tab Interface */
+.tab-interface {
+    margin-top: 20px;
 }
 
-.feedback-section h4,
-.challenge-section h4 {
+.tab-instructions {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border-left: 4px solid #d13138;
+}
+
+.tab-instructions h3 {
+    color: #1d2757;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.tab-instructions p {
+    color: #495057;
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+/* Pulsing animation for active tab */
+@keyframes tabPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(209, 49, 56, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(209, 49, 56, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(209, 49, 56, 0);
+    }
+}
+
+.tab-navigation {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #1d2757;
+    border-bottom: none;
+    overflow: hidden;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 15px 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #495057;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #1d2757;
+}
+
+.tab-button:last-child {
+    border-right: none;
+}
+
+.tab-button:hover {
+    background: rgba(29, 39, 87, 0.1);
+    color: #1d2757;
+}
+
+.tab-button:focus {
+    outline: 3px solid #ffc107;
+    outline-offset: -3px;
+}
+
+.tab-button.active {
+    background: #1d2757;
+    color: white;
+    border-bottom: 3px solid #d13138;
+    animation: tabPulse 2s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.tab-content {
+    background: white;
+    border: 2px solid #1d2757;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 25px;
+    min-height: 200px;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.tab-panel h3,
+.tab-panel h4 {
     color: #495057;
     margin-bottom: 15px;
+}
+
+.tab-panel .centered-title {
+    text-align: center;
+}
+
+.tab-panel .learning-summary {
+    margin-top: 30px;
+}
+
+.tab-panel .compare-instructions {
+    background: #f8f9fa;
+    border: 2px solid #1d2757;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #495057;
+}
+
+.tab-panel .feedback-section,
+.tab-panel .challenge-section {
+    background: transparent;
+    padding: 0;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.tab-panel .feedback-section h4,
+.tab-panel .challenge-section h4 {
     border-bottom: 2px solid #1d2757;
     padding-bottom: 5px;
 }
 
-/* Responsive Design */
+.tab-panel .action-buttons {
+    margin-bottom: 20px;
+}
+
+.tab-panel .comparison-panel {
+    margin-top: 20px;
+}
+
+/* Remove old section styling that's now in tabs */
+.info-section-below {
+    display: none;
+}
+
+.feedback-section,
+.challenge-section {
+    background: transparent;
+    padding: 0;
+    border: none;
+    margin-bottom: 0;
+}
+
+/* Comparison Panel Updates for Tab Layout */
+.comparison-panel {
+    background: #f8f9fa;
+    border: 2px solid #1d2757;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+/* Footer */
+footer {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    margin-top: 20px;
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
 @media (max-width: 1200px) {
     .main-content {
         grid-template-columns: 1fr;
@@ -697,6 +889,39 @@ footer {
 
     header h1 {
         font-size: 2em;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .control-panel {
+        order: 1;
+        margin-bottom: 20px;
+    }
+
+    .map-container {
+        order: 2;
+    }
+
+    .tab-interface {
+        order: 3;
+        margin-top: 20px;
+    }
+
+    .tab-navigation {
+        flex-direction: column;
+    }
+
+    .tab-button {
+        border-right: none;
+        border-bottom: 1px solid #1d2757;
+        text-align: left;
+        padding: 12px 20px;
+    }
+
+    .tab-button:last-child {
+        border-bottom: none;
     }
 
     .reference-grid {
@@ -742,6 +967,10 @@ footer {
     }
 
     .dot {
+        animation: none;
+    }
+
+    .tab-button.active {
         animation: none;
     }
 }
