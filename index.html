@@ -98,7 +98,7 @@
                 <!-- RIGHT SIDE: Map Container -->
                 <section class="map-container" aria-label="Interactive World Map">
                     <div id="world-map" role="img" aria-label="World map showing current latitude and longitude position with crosshair and placed dots">
-                        <svg id="coordinate-grid" width="800" height="400" role="presentation" aria-hidden="true">
+                        <svg id="coordinate-grid" viewBox="0 0 800 400" preserveAspectRatio="none" role="presentation" aria-hidden="true">
                             <!-- Equator line -->
                             <line x1="0" y1="200" x2="800" y2="200" class="equator-line" />
                             <text x="10" y="195" class="grid-label">Equator (0° Latitude)</text>
@@ -176,6 +176,7 @@
                     <button class="challenge-btn" data-lat="90" data-lng="0" aria-label="Challenge: Locate the North Pole at 90 degrees North latitude, 0 degrees longitude">Locate the North Pole</button>
                     <button class="challenge-btn" data-lat="-90" data-lng="0" aria-label="Challenge: Find the South Pole at 90 degrees South latitude, 0 degrees longitude">South Pole</button>
                     <button class="challenge-btn" data-lat="23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Cancer at 23.5 degrees North latitude, 0 degrees longitude">Tropic of Cancer</button>
+                    <button class="challenge-btn" data-lat="-23.5" data-lng="0" aria-label="Challenge: Find the Tropic of Capricorn at 23.5 degrees South latitude, 0 degrees longitude">Tropic of Capricorn</button>
                     <button class="challenge-btn" data-lat="40.7" data-lng="-74" aria-label="Challenge: Find New York City at 40.7 degrees North latitude, 74 degrees West longitude">New York City</button>
                     <button class="challenge-btn" data-lat="51.5" data-lng="0" aria-label="Challenge: Find London on Prime Meridian at 51.5 degrees North latitude, 0 degrees longitude">London (on Prime Meridian)</button>
                 </div>
